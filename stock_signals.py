@@ -31,7 +31,7 @@ start_date_x_days_before = get_date_x_days_before(start_date, num_periods * 2)
 
 # Streamlit app
 st.title("Stock Buy and Sell Signals")
-st.write(f"Analyzing data from {start_date} to {end_date}")
+
 
 # Initialize lists to store results
 buy_signals = {0: [], 1: [], 2: []}
