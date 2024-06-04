@@ -22,7 +22,7 @@ stocks = ["HDFCLIFE.NS", "RELIANCE.NS", "TCS.NS", "INFY.NS", "HDFCBANK.NS", # Ad
           "ADANIGREEN.NS", "GAIL.NS", "IOC.NS", "VEDL.NS", "DLF.NS"]
 
 # Define the date range
-end_date = date.today()
+end_date = date.today()+timedelta(days=1)
 start_date = end_date - timedelta(days=40)
 num_periods = 20
 
@@ -56,13 +56,13 @@ for stock in stocks:
 
         # Iterate through the data to find buy and sell signals
         for i in range(1, len(stock_data)):
-            if (stock_data['Open'].iloc[i] <= stock_data['SMA'].iloc[i]) and (stock_data['Close'].iloc[i] >= stock_data['SMA'].iloc[i]):
+            if (stock_data['Open'].iloc[i] <= stock_data['SMA'].iloc[i]) and (stock_data['Close'].iloc[i] >= stock_data['SMA'].iloc[i]) and (stock_data['Open'].iloc[i]<stock_data['Close'].iloc[i]):
                 stock_data.loc[stock_data.index[i], 'Buy Signal'] = 1
-            elif (stock_data['Open'].iloc[i] >= stock_data['SMA'].iloc[i]) and (stock_data['Close'].iloc[i] <= stock_data['SMA'].iloc[i]):
+            elif (stock_data['Open'].iloc[i] >= stock_data['SMA'].iloc[i]) and (stock_data['Close'].iloc[i] <= stock_data['SMA'].iloc[i]) and (stock_data['Open'].iloc[i]>stock_data['Close'].iloc[i]):
                 stock_data.loc[stock_data.index[i], 'Sell Signal'] = 1
-            if (stock_data['Close'].iloc[i-1] >= stock_data['SMA'].iloc[i-1]) and (stock_data['Open'].iloc[i] <= stock_data['SMA'].iloc[i]) and (stock_data['Close'].iloc[i] <= stock_data['SMA'].iloc[i]):
+            if (stock_data['Close'].iloc[i-1] >= stock_data['SMA'].iloc[i-1]) and (stock_data['Open'].iloc[i] <= stock_data['SMA'].iloc[i]) and (stock_data['Close'].iloc[i] <= stock_data['SMA'].iloc[i]) and (stock_data['Open'].iloc[i]>stock_data['Close'].iloc[i]):
                 stock_data.loc[stock_data.index[i], 'Sell Signal'] = 1
-            if (stock_data['Close'].iloc[i-1] <= stock_data['SMA'].iloc[i-1]) and (stock_data['Open'].iloc[i] >= stock_data['SMA'].iloc[i]) and (stock_data['Close'].iloc[i] >= stock_data['SMA'].iloc[i]):
+            if (stock_data['Close'].iloc[i-1] <= stock_data['SMA'].iloc[i-1]) and (stock_data['Open'].iloc[i] >= stock_data['SMA'].iloc[i]) and (stock_data['Close'].iloc[i] >= stock_data['SMA'].iloc[i]) and (stock_data['Open'].iloc[i]<stock_data['Close'].iloc[i]):
                 stock_data.loc[stock_data.index[i], 'Buy Signal'] = 1
 
         # Check for buy or sell signals in the last 3 days
@@ -87,6 +87,7 @@ day_index = days.index(selected_day)
 
 # Display the results
 st.subheader(f"Buy Signals for {selected_day}")
+st.write(f"{end_date}")
 if buy_signals[day_index]:
     for stock, signal_date, signal in buy_signals[day_index]:
         st.write(f"{signal_date}: {stock} - {signal}")
