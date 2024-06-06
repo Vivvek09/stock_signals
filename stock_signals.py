@@ -89,6 +89,10 @@ def process_stocks(stocks):
                     stock_data.loc[stock_data.index[i], 'Sell Signal'] = 1
                 if (stock_data['Close'].iloc[i-1] <= stock_data['SMA'].iloc[i-1]) and (stock_data['Open'].iloc[i] >= stock_data['SMA'].iloc[i]) and (stock_data['Close'].iloc[i] >= stock_data['SMA'].iloc[i]) and (stock_data['Open'].iloc[i]<stock_data['Close'].iloc[i]):
                     stock_data.loc[stock_data.index[i], 'Buy Signal'] = 1
+                if (stock_data['Close'].iloc[i-1] > stock_data['Open'].iloc[i-1] and stock_data['Close'].iloc[i-1] < stock_data['SMA'].iloc[i-1] and stock_data['Close'].iloc[i] < stock_data['Open'].iloc[i] and (stock_data['Close'].iloc[i-1] <= stock_data['SMA'].iloc[i-1] or stock_data['Open'].iloc[i-1] < stock_data['SMA'].iloc[i-1])):
+                    stock_data.loc[stock_data.index[i], 'Sell Signal'] = 0
+                if (stock_data['Close'].iloc[i-1] < stock_data['Open'].iloc[i-1] and stock_data['Open'].iloc[i-1] > stock_data['SMA'].iloc[i-1] and stock_data['Close'].iloc[i] > stock_data['Open'].iloc[i] and (stock_data['Close'].iloc[i-1] >= stock_data['SMA'].iloc[i-1] or stock_data['Open'].iloc[i-1] > stock_data['SMA'].iloc[i-1])):
+                    stock_data.loc[stock_data.index[i], 'Buy Signal'] = 0
                 # if (stock_data.loc[stock_data.index[i-1], 'Buy Signal'] == 1 ):
                  #   stock_data.loc[stock_data.index[i], 'Buy Signal'] = 0
                 
